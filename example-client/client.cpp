@@ -15,84 +15,71 @@ void sig_exit(int s)
 	tcp.exit();
 	exit(0);
 }
-//trims all leading and trailing whitespaces from our strings
-//std::string trim(std::string const& str)
-//{
-//    std::string word;
-//    std::stringstream stream(str);
-//    stream >> word;
 
-//    return word;
-//}
-
-void init_message(int rq,struct message msg,int payload,std::string data){
+void init_message(int rq,struct message msg,int payload,const char * data){
     switch (rq) {
     case 1:
         //ping
         msg.status_code = rq;
         msg.payload = 0;
-//        msg.data = "";
+        msg.data = 0;
         break;
     case 2:
         //get stats
         msg.status_code = rq;
         msg.payload = 0;
-//        msg.data = "";
+        msg.data = 0;
         break;
     case 3:
         //reset stats
         msg.status_code = rq;
         msg.payload = 0;
-//        msg.data = "";
+        msg.data = 0;
         break;
     case 4:
         //compress
         msg.status_code = rq;
         msg.payload = payload;
-//        msg.data = data;
-        //msg.payload = 0;//get length of a string - might be up to 65535
+        strcpy(msg.data,data);
         break;
     }
-
-//    msg.payload = 0;
-//    msg.status_code = rq;
 }
 //char data - our string, length of string is a payload
-void serialize(struct message* msgPacket, char *data)
-{
-    uint32_t *q = (uint32_t*)data;
+//void serialize(struct message* msgPacket, char *data)
+//{
+//    uint32_t *q = (uint32_t*)data;
 
-    *q = msgPacket->magic;       q++;
-    *q = msgPacket->payload;
-    *q = *q << 16 + msgPacket->status_code;//
-//    *q = msgPacket->status_code;     q++;
+//    *q = msgPacket->magic;       q++;
+//    *q = msgPacket->payload;
+//    *q = *q << 16 + msgPacket->status_code;//
+////    *q = msgPacket->status_code;     q++;
 
-    uint32_t *p = (uint32_t*)q;
-    int i = 0;
-    while (i < msgPacket->payload)
-    {
-//        *p = *msgPacket->data;
-        p++;
-        i++;
-    }
-}
+//    uint32_t *p = (uint32_t*)q;
+//    int i = 0;
+//    while (i < msgPacket->payload)
+//    {
+////        *p = *msgPacket->data;
+//        p++;
+//        i++;
+//    }
+//}
 
-void deserialize(char *data, struct message* msgPacket)
-{
-    int *q = (int*)data;
-    msgPacket->magic = *q;       q++;
-    msgPacket->payload = *q;   q++;
-    msgPacket->status_code = *q;     q++;
+//void deserialize(char *data, struct message* msgPacket)
+//{
+//    int *q = (int*)data;
+//    msgPacket->magic = *q;       q++;
+//    msgPacket->payload = *q;   q++;
+//    msgPacket->status_code = *q;     q++;
 
-    uint8_t *p = (uint8_t*)q;
-    int i = 0;
-    while (i < BUFSIZE)
-    {
-        msgPacket->data[i] = *p;
-        p++;
-        i++;
-    }
-}
+//    uint8_t *p = (uint8_t*)q;
+//    int i = 0;
+//    while (i < BUFSIZE)
+//    {
+//        msgPacket->data[i] = *p;
+//        p++;
+//        i++;
+//    }
+//}
 
 
 int main(int argc, char *argv[])
@@ -112,9 +99,6 @@ int main(int argc, char *argv[])
     tcp.setup("127.0.0.1",port);
     int rq = 0;
     struct message msg;
-    std::vector<std::string> array;
-    std::size_t pos = 0, found;
-//    ="--compress \"AA111aa\" ";//format this string
 	while(1)
 	{
         std::getline(std::cin, request);
@@ -155,8 +139,8 @@ int main(int argc, char *argv[])
                 std::cout << "help";
                 //send 3 to server
                 rq = 3;
-//                init_message(rq,msg);
-//                tcp.Send(to_string(rq));
+                init_message(rq,msg,0,0);
+                tcp.Send(msg);
         }
         if ((req == "-c") || (req == "--compress")){
                //divide on substrings
@@ -172,9 +156,7 @@ int main(int argc, char *argv[])
                 //send 4 to server
                 rq = 4;
 
-                init_message(rq,msg,str.length(),str);
-                serialize(&msg,data);
-                //get message length
+                init_message(rq,msg,str.length(),str.c_str());
                 tcp.Send(msg);
         }
 
