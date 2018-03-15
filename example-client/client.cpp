@@ -49,7 +49,7 @@ void init_message(int rq,struct message msg,int payload,std::string data){
         //compress
         msg.status_code = rq;
         msg.payload = payload;
-        msg.data = data;
+//        msg.data = data;
         //msg.payload = 0;//get length of a string - might be up to 65535
         break;
     }
@@ -60,16 +60,18 @@ void init_message(int rq,struct message msg,int payload,std::string data){
 //char data - our string, length of string is a payload
 void serialize(struct message* msgPacket, char *data)
 {
-    int *q = (int*)data;
-    *q = msgPacket->magic;       q++;
-    *q = msgPacket->payload;   q++;
-    *q = msgPacket->status_code;     q++;
+    uint32_t *q = (uint32_t*)data;
 
-    uint8_t *p = (uint8_t*)q;
+    *q = msgPacket->magic;       q++;
+    *q = msgPacket->payload;
+    *q = *q << 16 + msgPacket->status_code;//
+//    *q = msgPacket->status_code;     q++;
+
+    uint32_t *p = (uint32_t*)q;
     int i = 0;
     while (i < msgPacket->payload)
     {
-        *p = *msgPacket->data.c_str();
+//        *p = *msgPacket->data;
         p++;
         i++;
     }
