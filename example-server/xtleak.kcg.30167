@@ -1,0 +1,86 @@
+# callgrind format
+version: 1
+creator: xtree-1
+pid: 30167
+cmd: ./server
+
+positions: line
+event: RB : Reachable Bytes
+event: PB : Possibly lost Bytes
+event: IB : Indirectly lost Bytes
+event: DB : Definitely lost Bytes (direct plus indirect)
+event: DIB : Definitely Indirectly lost Bytes (subset of DB)
+event: RBk : reachable Blocks
+event: PBk : Possibly lost Blocks
+event: IBk : Indirectly lost Blocks
+event: DBk : Definitely lost Blocks
+event: iRB : increase Reachable Bytes
+event: iPB : increase Possibly lost Bytes
+event: iIB : increase Indirectly lost Bytes
+event: iDB : increase Definitely lost Bytes
+event: iDIB : increase Definitely Indirectly lost Bytes
+event: iRBk : increase reachable Blocks
+event: iPBk : increase Possibly lost Blocks
+event: iIBk : increase Indirectly lost Blocks
+event: iDBk : increase Definitely lost Blocks
+event: dRB : decrease Reachable Bytes
+event: dPB : decrease Possibly lost Bytes
+event: dIB : decrease Indirectly lost Bytes
+event: dDB : decrease Definitely lost Bytes
+event: dDIB : decrease Definitely Indirectly lost Bytes
+event: dRBk : decrease reachable Blocks
+event: dPBk : decrease Possibly lost Blocks
+event: dIBk : decrease Indirectly lost Blocks
+event: dDBk : decrease Definitely lost Blocks
+events: RB  PB  IB  DB  DIB  RBk  PBk  IBk  DBk  iRB  iPB  iIB  iDB  iDIB  iRBk  iPBk  iIBk  iDBk  dRB  dPB  dIB  dDB  dDIB  dRBk  dPBk  dIBk  dDBk 
+fl=(1) /build/glibc-itYbWN/glibc-2.26/misc/../sysdeps/unix/sysv/linux/x86_64/clone.S
+fn=(1) clone
+95
+cfi=(2) /build/glibc-itYbWN/glibc-2.26/nptl/pthread_create.c
+cfn=(2) start_thread
+calls=0 465
+95 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
+fl=(2)
+fn=(2)
+465
+cfi=(3) UnknownFile???
+cfn=(3) TCPServer::Task(void*)
+calls=0 0
+465 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
+fl=(3)
+fn=(3)
+0
+cfi=(3)
+cfn=(4) malloc
+calls=0 0
+0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
+fl=(3)
+fn=(4)
+0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
+
+fl=(3)
+fn=(5) main
+0
+cfi=(4) /build/glibc-itYbWN/glibc-2.26/nptl/allocatestack.c
+cfn=(6) pthread_create@@GLIBC_2.2.5
+calls=0 597
+0 0 288 0 0 0 0 1 0 0 0 288 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+fl=(4)
+fn=(6)
+597
+cfi=(5) /build/glibc-itYbWN/glibc-2.26/elf/../elf/dl-tls.c
+cfn=(7) _dl_allocate_tls
+calls=0 290
+597 0 288 0 0 0 0 1 0 0 0 288 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+fl=(5)
+fn=(7)
+290
+cfi=(3)
+cfn=(8) calloc
+calls=0 0
+290 0 288 0 0 0 0 1 0 0 0 288 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+fl=(3)
+fn=(8)
+0 0 288 0 0 0 0 1 0 0 0 288 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+
+totals: 0 288 0 0 0 0 1 0 1 0 288 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0
