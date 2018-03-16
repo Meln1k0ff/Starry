@@ -40,7 +40,7 @@ void init_message(int rq,struct message msg,int payload,const char * data){
         //compress
         msg.status_code = rq;
         msg.payload = payload;
-        strcpy(msg.data,data);
+        memcpy(msg.data,data,strlen(data)+1);
         break;
     }
 }
@@ -121,9 +121,6 @@ int main(int argc, char *argv[])
                 //send 1 to server
                 rq = 1;
                 init_message(rq,msg,0,0);
-                //serialize
-
-//                serialize(msg,data);
                 tcp.Send(msg);
         }
 
@@ -162,7 +159,7 @@ int main(int argc, char *argv[])
 
 		srand(time(NULL));
 
-        tcp.Send(msg);
+//        tcp.Send(msg);
 		string rec = tcp.receive();
         std::cout << "response=" << std::endl;
         int res = atoi(rec.c_str());
