@@ -17,6 +17,9 @@ void sig_exit(int s)
 }
 
 void init_message(int rq,struct message msg,int payload,const char * data){
+    char *buffer = (char *) malloc(payload);
+    memcpy(buffer,data,payload);
+
     switch (rq) {
     case 1:
         //ping
@@ -41,7 +44,7 @@ void init_message(int rq,struct message msg,int payload,const char * data){
         msg.status_code = rq;
         msg.payload = payload;
 
-        memcpy(msg.data,data,strlen(data)+1);
+        memcpy(msg.data,buffer,payload);
         break;
     }
 }
