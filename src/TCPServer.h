@@ -19,19 +19,19 @@ using namespace std;
 
 #define MAXPACKETSIZE 4096
 
-//struct message {
-//    uint32_t magic = 0x53545259;
-//    uint16_t payload;//length of a data
-//    uint16_t status_code;
-//    uint8_t *data;//fix
-//}__attribute__((packed));
-
 struct message {
     uint32_t magic = 0x53545259;
     uint16_t payload;//length of a data
     uint16_t status_code;
-    std::string data;
+    char *data;//fix
 }__attribute__((packed));
+
+//struct message {
+//    uint32_t magic = 0x53545259;
+//    uint16_t payload;//length of a data
+//    uint16_t status_code;
+//    std::string data;
+//}__attribute__((packed));
 
 //struct message {
 //    uint32_t magic = 0x53545259;
@@ -63,7 +63,7 @@ class TCPServer
     message getMSG();
 
 private:
-    static void * Task(void * argv);
+    static void * Task(void * arg);
 };
 
 #endif

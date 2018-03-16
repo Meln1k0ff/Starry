@@ -1,25 +1,38 @@
 #include "TCPServer.h" 
 
 struct message TCPServer::MSG;
-//arg
 
-void* TCPServer::Task(void *arg)
+void * TCPServer::Task(void *arg)
 {
-	int n;
+    int n = 1;
     int newsockfd = (long)arg;
+    uint16_t status;
+    int payload_length;
 
-    struct message msg;
-	pthread_detach(pthread_self());
-	while(1)
-	{        
-        n=recv(newsockfd,reinterpret_cast<char*>(&MSG),sizeof(MSG),O_CLOEXEC);
-		if(n==0)
-		{
-		   close(newsockfd);
-		   break;
-		}
+    uint8_t header[8];
+
+    while(n > 0)
+    {
+        pthread_detach(pthread_self());
+        n=recv(newsockfd,header,8,0);//read our header
+        payload_length = header[6]*8 + header[7];
+        status = header[4]*8 + header[5];
+
+        if(n<=0)
+        {
+           close(newsockfd);
+        }
+
+        void* str_buf = malloc(payload_length);
+        n=recv(newsockfd,str_buf,payload_length,O_CLOEXEC);
+
+        if(n<=0)
+        {
+           close(newsockfd);
+        }
+
     }
-	return 0;
+    return 0;
 }
 
 message TCPServer::getMSG()
@@ -41,17 +54,13 @@ void TCPServer::setup(int port)
 string TCPServer::receive()
 {
 	string str;
-    struct message *msg;
-    int length;
+
 	while(1)
 	{
 		socklen_t sosize  = sizeof(clientAddress);
 		newsockfd = accept(sockfd,(struct sockaddr*)&clientAddress,&sosize);
 
-        str = inet_ntoa(clientAddress.sin_addr);
-        length = str.length();
-
-        std::cout << "length="<<length;
+        str = inet_ntoa(clientAddress.sin_addr);             
 		pthread_create(&serverThread,NULL,&Task,(void *)newsockfd);
 	}
 	return str;

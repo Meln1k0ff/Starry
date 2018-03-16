@@ -48,31 +48,31 @@ bool TCPClient::setup(string address , int port)
   	return true;
 }
 
-
-//bool TCPClient::Send(string data)
-//{
-//	if(sock != -1)
-//	{
-//		if( send(sock , data.c_str() , strlen( data.c_str() ) , 0) < 0)
-//		{
-//			cout << "Send failed : " << data << endl;
-//			return false;
-//		}
-//	}
-//	else
-//		return false;
-//	return true;
-//}
-
 bool TCPClient::Send(struct message msg )
 {
+    uint8_t *buffer = (uint8_t *) malloc(msg.payload + 8);//allocate memory for a string
+    uint8_t *p = (uint8_t*) buffer;
+
+    memcpy(p,&msg.magic,4);
+
+    memcpy(p+4,&msg.payload,2);
+    memcpy(p+6,&msg.status_code,2);
+
+   if (msg.data != NULL){
+        std::cout << "some string is here"<<std::endl;
+        memcpy(p+8,msg.data,msg.payload);
+   }
+
     if(sock != -1)
     {
         std::cout << "SENDING" << std::endl;
         std::cout << "msg size=" << sizeof(msg) <<std::endl;
-        if( send(sock , reinterpret_cast<const char*>(&msg) , sizeof(msg), 0) < 0)
+
+        //check if message has actual string to compress
+
+        if( send(sock , (uint8_t *)buffer , msg.payload + 8, 0) < 0)
         {
-            cout << "Send failed : " << msg.magic << endl;
+            cout << "Send failed : " << std::hex<< msg.magic << endl;
             return false;
         }
     }
@@ -89,8 +89,7 @@ string TCPClient::receive(int size)
 
   	string reply;
 	if( recv(sock , buffer , size, 0) < 0)
-  	{
-	    	cout << "receive failed!" << endl;
+  	{	    	
 		return nullptr;
   	}
 	buffer[size-1]='\0';

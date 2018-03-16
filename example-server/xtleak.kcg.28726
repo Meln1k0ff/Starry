@@ -1,7 +1,7 @@
 # callgrind format
 version: 1
 creator: xtree-1
-pid: 1215
+pid: 28726
 cmd: ./server
 
 positions: line
@@ -33,29 +33,54 @@ event: dPBk : decrease Possibly lost Blocks
 event: dIBk : decrease Indirectly lost Blocks
 event: dDBk : decrease Definitely lost Blocks
 events: RB  PB  IB  DB  DIB  RBk  PBk  IBk  DBk  iRB  iPB  iIB  iDB  iDIB  iRBk  iPBk  iIBk  iDBk  dRB  dPB  dIB  dDB  dDIB  dRBk  dPBk  dIBk  dDBk 
-fl=(1) UnknownFile???
-fn=(1) main
-0
-cfi=(2) /build/glibc-itYbWN/glibc-2.26/nptl/allocatestack.c
-cfn=(2) pthread_create@@GLIBC_2.2.5
-calls=0 597
-0 0 288 0 0 0 0 1 0 0 0 288 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+fl=(1) /build/glibc-itYbWN/glibc-2.26/misc/../sysdeps/unix/sysv/linux/x86_64/clone.S
+fn=(1) clone
+95
+cfi=(2) /build/glibc-itYbWN/glibc-2.26/nptl/pthread_create.c
+cfn=(2) start_thread
+calls=0 465
+95 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
 fl=(2)
 fn=(2)
-597
-cfi=(3) /build/glibc-itYbWN/glibc-2.26/elf/../elf/dl-tls.c
-cfn=(3) _dl_allocate_tls
-calls=0 290
-597 0 288 0 0 0 0 1 0 0 0 288 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+465
+cfi=(3) UnknownFile???
+cfn=(3) TCPServer::Task(void*)
+calls=0 0
+465 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
 fl=(3)
 fn=(3)
+0
+cfi=(3)
+cfn=(4) malloc
+calls=0 0
+0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
+fl=(3)
+fn=(4)
+0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0
+
+fl=(3)
+fn=(5) main
+0
+cfi=(4) /build/glibc-itYbWN/glibc-2.26/nptl/allocatestack.c
+cfn=(6) pthread_create@@GLIBC_2.2.5
+calls=0 597
+0 0 288 0 0 0 0 1 0 0 0 288 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+fl=(4)
+fn=(6)
+597
+cfi=(5) /build/glibc-itYbWN/glibc-2.26/elf/../elf/dl-tls.c
+cfn=(7) _dl_allocate_tls
+calls=0 290
+597 0 288 0 0 0 0 1 0 0 0 288 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+fl=(5)
+fn=(7)
 290
-cfi=(1)
-cfn=(4) calloc
+cfi=(3)
+cfn=(8) calloc
 calls=0 0
 290 0 288 0 0 0 0 1 0 0 0 288 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
-fl=(1)
-fn=(4)
+fl=(3)
+fn=(8)
 0 0 288 0 0 0 0 1 0 0 0 288 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
 
-totals: 0 288 0 0 0 0 1 0 0 0 288 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0
+totals: 0 288 0 0 0 0 1 0 1 0 288 0 0 0 0 1 0 1 0 0 0 0 0 0 0 0 0

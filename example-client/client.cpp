@@ -40,6 +40,7 @@ void init_message(int rq,struct message msg,int payload,const char * data){
         //compress
         msg.status_code = rq;
         msg.payload = payload;
+
         memcpy(msg.data,data,strlen(data)+1);
         break;
     }

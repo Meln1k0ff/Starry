@@ -16,19 +16,19 @@
 
 using namespace std;
 
-//struct message {
-//    uint32_t magic = 0x53545259;
-//    uint16_t payload;
-//    uint16_t status_code;
-//    uint8_t *data;
-//}__attribute__((packed));
-
 struct message {
     uint32_t magic = 0x53545259;
     uint16_t payload;
     uint16_t status_code;
-    std::string data;
+    char *data;
 }__attribute__((packed));
+
+//struct message {
+//    uint32_t magic = 0x53545259;
+//    uint16_t payload;
+//    uint16_t status_code;
+//    std::string data;
+//}__attribute__((packed));
 
 //struct message {
 //    uint32_t magic = 0x53545259;
