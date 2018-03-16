@@ -16,75 +16,38 @@ void sig_exit(int s)
 	exit(0);
 }
 
-void init_message(int rq,struct message msg,int payload,const char * data){
+void init_message(int rq,struct message *msg,int payload,const char * data){
     char *buffer = (char *) malloc(payload);
-    memcpy(buffer,data,payload);
 
+    memcpy(buffer,data,payload);
     switch (rq) {
     case 1:
         //ping
-        msg.status_code = rq;
-        msg.payload = 0;
-        msg.data = 0;
+        msg->status_code = rq;
+        msg->payload = 0;
+        msg->data = 0;
         break;
     case 2:
         //get stats
-        msg.status_code = rq;
-        msg.payload = 0;
-        msg.data = 0;
+        msg->status_code = rq;
+        msg->payload = 0;
+        msg->data = 0;
         break;
     case 3:
         //reset stats
-        msg.status_code = rq;
-        msg.payload = 0;
-        msg.data = 0;
+        msg->status_code = rq;
+        msg->payload = 0;
+        msg->data = 0;
         break;
     case 4:
         //compress
-        msg.status_code = rq;
-        msg.payload = payload;
+        msg->status_code = rq;
+        msg->payload = payload;
 
-        memcpy(msg.data,buffer,payload);
+        memcpy(msg->data,buffer,payload);
         break;
     }
 }
-//char data - our string, length of string is a payload
-//void serialize(struct message* msgPacket, char *data)
-//{
-//    uint32_t *q = (uint32_t*)data;
-
-//    *q = msgPacket->magic;       q++;
-//    *q = msgPacket->payload;
-//    *q = *q << 16 + msgPacket->status_code;//
-////    *q = msgPacket->status_code;     q++;
-
-//    uint32_t *p = (uint32_t*)q;
-//    int i = 0;
-//    while (i < msgPacket->payload)
-//    {
-////        *p = *msgPacket->data;
-//        p++;
-//        i++;
-//    }
-//}
-
-//void deserialize(char *data, struct message* msgPacket)
-//{
-//    int *q = (int*)data;
-//    msgPacket->magic = *q;       q++;
-//    msgPacket->payload = *q;   q++;
-//    msgPacket->status_code = *q;     q++;
-
-//    uint8_t *p = (uint8_t*)q;
-//    int i = 0;
-//    while (i < BUFSIZE)
-//    {
-//        msgPacket->data[i] = *p;
-//        p++;
-//        i++;
-//    }
-//}
-
 
 int main(int argc, char *argv[])
 {
@@ -102,7 +65,8 @@ int main(int argc, char *argv[])
     int port = atoi(argv[1]);
     tcp.setup("127.0.0.1",port);
     int rq = 0;
-    struct message msg;
+    struct message *msg = (struct message *) malloc(sizeof (struct message) );
+
 	while(1)
 	{
         std::getline(std::cin, request);
@@ -163,7 +127,6 @@ int main(int argc, char *argv[])
 
 		srand(time(NULL));
 
-//        tcp.Send(msg);
 		string rec = tcp.receive();
         std::cout << "response=" << std::endl;
         int res = atoi(rec.c_str());
