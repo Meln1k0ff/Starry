@@ -6,43 +6,6 @@
 
 TCPServer tcp;
 
-std::vector<std::string> stats_table;//has all our compressed strings
-
-std::string length_encoding(const std::string& s)
-{
-    char c = ' ';
-    int num = 0;
-    std::string result;
-    std::string::const_iterator it = s.begin();
-    for(; it != s.end(); ++it)
-    {
-        if(*it!=c)
-        {
-            if(num!=0)
-            {
-                std::stringstream ss;
-                ss << num;
-                std::string num_s(ss.str());
-                result += num_s;
-            }
-
-            c = *it;
-            result.push_back(c);
-
-            num = 1;
-        }
-        else
-        {
-            num++;
-        }
-    }
-
-    std::stringstream ss;
-    ss << num;
-    std::string num_s(ss.str());
-    result += num_s;
-}
-
 void * loop(void * m)
 {
     pthread_detach(pthread_self());
@@ -56,7 +19,7 @@ void * loop(void * m)
         //notify main thread when status code is checked
         switch (msg.status_code){
         case 1:
-                std::cout << "Ping"<<std::endl;
+            std::cout << "Ping"<<std::endl;
 
             tcp.Send("I am Alive");//
 //                stats_table.push_back(lst); // request stats in another thread
@@ -68,7 +31,9 @@ void * loop(void * m)
             break;
         case 3:
             //reset stats
+             tcp.Send("Reset Stats");
             //clear vector
+
             break;
         case 4:
             //compress
@@ -84,7 +49,7 @@ void * loop(void * m)
 int main(int argc,char *argv)
 {
 	pthread_t msg;
-    tcp.setup(11999);//from cmd 4000 port
+    tcp.setup(4000);//from cmd 4000 port
 	if( pthread_create(&msg, NULL, loop, (void *)0) == 0)
 	{
 		tcp.receive();

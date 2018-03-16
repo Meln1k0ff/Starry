@@ -94,13 +94,13 @@ int main(int argc, char *argv[])
 
         if ((request == "-s") || (request == "--stats")){
                 std::cout << "stats";
-                //send 3 to server
+                //send 2 to server
                 rq = 2;
                 init_message(rq,msg,0,0);
                 tcp.Send(msg);
         }
 
-        if ((request == "-h") || (request == "--help")){
+        if ((request == "-r") || (request == "--reset")){
                 std::cout << "help";
                 //send 3 to server
                 rq = 3;
